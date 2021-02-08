@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer, ListSerializer
 
-from ..core import code as resp_code
+from ..core.code import REQUEST_SUCCESS
 from utils.utils import now
 
 
@@ -11,7 +11,7 @@ class APIResponse(Response):
     """
 
     def __init__(self, data=None, status=None, headers=None,
-                 exception=False, code=resp_code.REQUEST_SUCCESS, msg='success', **kwargs):
+                 exception=False, code=REQUEST_SUCCESS, msg='success', **kwargs):
 
         if isinstance(data, (Serializer, ListSerializer)):
             msg = (

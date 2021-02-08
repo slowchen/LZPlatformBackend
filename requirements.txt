@@ -1,0 +1,11 @@
+django_filter==2.3.0
+PyNaCl==1.4.0
+loguru==0.5.3
+PyMySQL==0.10.1
+sentry_sdk==0.19.5
+validators==0.15.0
+redis==3.5.3
+Django==3.1.4
+arrow==0.17.0
+djangorestframework==3.12.2
+PyJWT==2.0.1
