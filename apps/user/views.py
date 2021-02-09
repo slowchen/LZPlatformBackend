@@ -14,12 +14,16 @@ from apps.user.filters import UserFilter
 from apps.user.serializers import UserSerializer, RoleSerializer, LoginSerializer, RegisterSerializer, \
     UserChangePwdSerializer, MenuSerializer
 from utils.log import log
+from django.db.models import Q
 
 
 class LoginView(APIView):
     # 用户登录，获取 token
     """
-    {"username": "admin", "password": "admin"}
+    {"username": "username", "password": "12345678"}
+    {"username": "phone", "password": "12345678"}
+    {"username": "email", "password": "12345678"}
+    {"username": "employee_code", "password": "12345678"}
     """
 
     authentication_classes = ()
@@ -28,7 +32,13 @@ class LoginView(APIView):
         request_data = request.data
         login_ser = LoginSerializer(data=request_data)
         if login_ser.is_valid():
-            user = models.UserInfo.objects.filter(username=login_ser.data.get('username')).first()
+            # user = models.UserInfo.objects.filter(username=login_ser.data.get('username')).first()
+            # 支持username、email、phone、employee_code四种登陆方式，传参均放在username上
+            login_user_name = login_ser.data.get('username')
+            user = models.UserInfo.objects.filter(Q(username=login_user_name) |
+                                                  Q(email=login_user_name) |
+                                                  Q(phone=login_user_name) |
+                                                  Q(employee_code=login_user_name)).first()
             if user:
                 if check_password(login_ser.data.get('password'), user.password):
                     token = get_token(user)

@@ -15,10 +15,12 @@ from utils.utils import gen_id
 class UserInfo(BaseModel):
     # 用户表
     uid = models.CharField(max_length=32, unique=True, default=gen_id)
-    username = models.CharField(max_length=32, unique=True)
+    username = models.CharField(max_length=32, unique=True)  # 昵称
+    phone = models.CharField(max_length=11, unique=True, null=False, blank=False)
+    employee_code = models.CharField(max_length=7, unique=True, null=False, blank=False)
     password = models.CharField(max_length=256, blank=False, null=False)
-    email = models.EmailField(null=True, blank=True)
-    real_name = models.CharField(max_length=10, null=True, blank=True)
+    email = models.EmailField(unique=True, null=False, blank=False)
+    real_name = models.CharField(max_length=10, null=False, blank=False)  # 真实姓名
     status = models.IntegerField(default=1)
 
     # role = models.ManyToManyField(Role)
@@ -29,7 +31,7 @@ class UserInfo(BaseModel):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return f'{self.username}'
+        return f'{self.employee_code}-{self.real_name}'
 
     def save(self, *args, **kwargs):
         """

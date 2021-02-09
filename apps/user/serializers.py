@@ -20,11 +20,17 @@ class RegisterSerializer(serializers.Serializer):
                                                      'min_length': '密码最少8位'})
     confirm_password = serializers.CharField(required=True,
                                              error_messages={'required': 'password必填', 'blank': 'confirm_password不能为空'})
-    real_name = serializers.CharField(max_length=10, required=False)
-    email = serializers.EmailField(required=False)
+    real_name = serializers.CharField(max_length=10, required=True,
+                                      error_messages={'required': 'real_name必填', 'blank': 'real_name不能为空'})
+    phone = serializers.CharField(max_length=11, required=True, min_length=11,
+                                  error_messages={'required': 'phone必填', 'blank': 'phone不能为空'})
+    employee_code = serializers.CharField(max_length=7, required=True,
+                                          error_messages={'required': 'employee_code必填', 'blank': 'employee_code不能为空'})
+    email = serializers.EmailField(required=True,
+                                   error_messages={'required': 'email必填', 'blank': 'email不能为空'})
 
     class Meta:
-        fields = ('username', 'password', 'confirm_password', 'real_name', 'email')
+        fields = ('username', 'password', 'confirm_password', 'real_name', 'email', 'phone', 'employee_code')
 
     def validate(self, attrs):
         if attrs.get('password') != attrs.get('confirm_password'):
@@ -57,7 +63,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserInfo
-        fields = ('uid', 'username', 'password', 'real_name', 'email', 'roles', 'status')
+        fields = ('uid', 'username', 'password', 'phone', 'employee_code', 'real_name', 'email', 'roles', 'status')
         extra_kwargs = {
             'password': {'write_only': True},
             'status': {'read_only': True},
