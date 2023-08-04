@@ -1,2 +1,2 @@
 # LZPlatformBackend
-灵智测试平台后端项目
+Lingzhi test platform back-end project
